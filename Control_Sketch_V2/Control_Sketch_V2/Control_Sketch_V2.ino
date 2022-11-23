@@ -17,13 +17,13 @@
 
     KNOWN ISSUES - THE ENCODER CAN BOUNCE AROUND WHEN TURNING THE SPEED TO ZERO
                    FROM SOME HIGHER SPEED OR FROM ZERO. A WORK AROUND TO ZERO THE MOTOR IS
-                   TO PRESS THE BUTTON ONCE TO RESET THE SPEED. THE LONGER DELAY SEEMS 
+                   TO PRESS THE BUTTON ONCE TO RESET THE SPEED. THE LONGER DELAY SEEMS
                    TO WORK WELL. POWER BUTTON RESET ALSO WORKS...
                    ANY SOFTWARE SUGGESTIONS ARE WELCOME. DECOUPLING CAPACITORS
                    DIDN'T MAKE A LARGE DIFFERENCE.
 
                  - THE SCREEN FLICKERS. I HAVE TRIED A CAPACITOR AND IT DOESN'T HELP MUCH.
-                   I HAVE READ ITS FAIRLY COMMON FOR 'CHEAPER' LCDs, AND THE BACK EMF FROM 
+                   I HAVE READ ITS FAIRLY COMMON FOR 'CHEAPER' LCDs, AND THE BACK EMF FROM
                    THE MOTOR IS LIKELY CAUSING SOME LARGE VOLTAGE SPIKES ACROSS THE CIRCUIT.
 
 */
@@ -51,9 +51,9 @@ Encoder myEncoder(chA, chB);
 
 //##################  End of adjustable parameters #######################################
 
-// &&&&&&&&&&&&&&&&&&&&&&& &&&&&&&&&&&&&&&&&&&&&&& &&&&&&&&&&&&&&&&&&&&&&& 
-// &&&&&&&&&&&&&&&&&&&&&&& PROGRAM CONSTANTS &&&&&&&&&&&&&&&&&&&&&&& 
-// &&&&&&&&&&&&&&&&&&&&&&& &&&&&&&&&&&&&&&&&&&&&&& &&&&&&&&&&&&&&&&&&&&&&& 
+// &&&&&&&&&&&&&&&&&&&&&&& &&&&&&&&&&&&&&&&&&&&&&& &&&&&&&&&&&&&&&&&&&&&&&
+// &&&&&&&&&&&&&&&&&&&&&&& PROGRAM CONSTANTS &&&&&&&&&&&&&&&&&&&&&&&
+// &&&&&&&&&&&&&&&&&&&&&&& &&&&&&&&&&&&&&&&&&&&&&& &&&&&&&&&&&&&&&&&&&&&&&
 
 int INDEX = 0;
 int VALUE = 0;
@@ -110,7 +110,7 @@ void setup() {
 
   //first - flash setup (only works if EEPROM untouched since factory)
   EEPROM.get(eeAddressForInitialization, initializationConst);
-  if  (initializationConst =! 1) {
+  if  (initializationConst = ! 1) {
     EEPROM.put(eeAddress, 255);
     EEPROM.put(eeAddressForInitialization, 1);
     lcd.clear();
@@ -135,9 +135,9 @@ void setup() {
 }
 
 
-// &&&&&&&&&&&&&&&&&&&&&&& &&&&&&&&&&&&&&&&&&&&&&& &&&&&&&&&&&&&&&&&&&&&&& 
-// &&&&&&&&&&&&&&&&&&&&&&& MAIN LOOP &&&&&&&&&&&&&&&&&&&&&&& 
-// &&&&&&&&&&&&&&&&&&&&&&& &&&&&&&&&&&&&&&&&&&&&&& &&&&&&&&&&&&&&&&&&&&&&& 
+// &&&&&&&&&&&&&&&&&&&&&&& &&&&&&&&&&&&&&&&&&&&&&& &&&&&&&&&&&&&&&&&&&&&&&
+// &&&&&&&&&&&&&&&&&&&&&&& MAIN LOOP &&&&&&&&&&&&&&&&&&&&&&&
+// &&&&&&&&&&&&&&&&&&&&&&& &&&&&&&&&&&&&&&&&&&&&&& &&&&&&&&&&&&&&&&&&&&&&&
 
 void loop() {
 
@@ -153,8 +153,8 @@ void loop() {
   INDEX = (INDEX + 1) % WINDOW_SIZE; // Increment the index, and wrap to 0 if it exceeds the window size
   AVERAGED = SUM / WINDOW_SIZE;      // Divide the sum of the window by the window size for the result
   roughMotorVoltage = AVERAGED * 12.0 / 1024.0;
-  
-//  Serial.println(roughMotorVoltage);
+
+  //  Serial.println(roughMotorVoltage);
 
   // update screen
   if (timeNew - timeOld > 300) {
@@ -180,6 +180,19 @@ void loop() {
       analogWrite(motorPWM, pwmMax);
       delay(50);
       newPos = oldPos;
+      for (int i = 0; i < 20; i++) {
+        lcd.setCursor(i, 0);
+        lcd.print(" ");
+      }
+      lcd.setCursor(1, 0);
+      lcd.print("Max Speed Reached!");
+      delay(1000);
+      for (int i = 0; i < 20; i++) {
+        lcd.setCursor(i, 0);
+        lcd.print(" ");
+      }
+      lcd.setCursor(2, 0);
+      lcd.print("V2 Turbofan Stats");
       myEncoder.write(oldPos);
     } else if (newPos <= 0) {
       analogWrite(motorPWM, 0);
@@ -230,8 +243,8 @@ void loop() {
         setFlag = false;
         if ((digitalRead(pushButton) == LOW) && (setFlag == false)) {
           int temp1 = (newPos + deadBand);
-          if (temp1 > 255) temp1=255;
-          if (temp1 < 0) temp1=0;
+          if (temp1 > 255) temp1 = 255;
+          if (temp1 < 0) temp1 = 0;
           EEPROM.put(eeAddress, temp1);
           for (int i = 0; i < 20; i++) {
             lcd.setCursor(i, 0);
@@ -268,9 +281,9 @@ void loop() {
 }
 
 
-// &&&&&&&&&&&&&&&&&&&&&&& &&&&&&&&&&&&&&&&&&&&&&& &&&&&&&&&&&&&&&&&&&&&&& 
-// &&&&&&&&&&&&&&&&&&&&&&& FUNCTIONS &&&&&&&&&&&&&&&&&&&&&&& 
-// &&&&&&&&&&&&&&&&&&&&&&& &&&&&&&&&&&&&&&&&&&&&&& &&&&&&&&&&&&&&&&&&&&&&& 
+// &&&&&&&&&&&&&&&&&&&&&&& &&&&&&&&&&&&&&&&&&&&&&& &&&&&&&&&&&&&&&&&&&&&&&
+// &&&&&&&&&&&&&&&&&&&&&&& FUNCTIONS &&&&&&&&&&&&&&&&&&&&&&&
+// &&&&&&&&&&&&&&&&&&&&&&& &&&&&&&&&&&&&&&&&&&&&&& &&&&&&&&&&&&&&&&&&&&&&&
 
 void printVoltage() {
   if ((roughMotorVoltage > 0) && (roughMotorVoltage < 10.0)) {

@@ -157,7 +157,7 @@ void loop() {
   //  Serial.println(roughMotorVoltage);
 
   // update screen
-  if (timeNew - timeOld > 300) {
+  if (abs(timeNew - timeOld) > 300) {
     timeOld = timeNew;
     if (abs(roughMotorVoltage - oldVolt) >= 0.01) {
       mtrSpeed = motorRPMperVolt * roughMotorVoltage;

@@ -11,4 +11,4 @@ https://www.thingiverse.com/thing:4743929
 
 List of OTS Hardware for entire project (found in "Electroniccs Assembly Instructions - V2.PDF" as well)
 
-![image](https://user-images.githubusercontent.com/69700210/209442617-bdbb9d91-0185-459d-aff6-abe785f43f2b.png)
+![image](https://user-images.githubusercontent.com/69700210/209443389-2be242d3-3600-4572-b30a-6c1a681f4990.png)

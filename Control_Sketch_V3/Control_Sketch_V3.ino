@@ -59,7 +59,7 @@ Encoder myEncoder(chA, chB);
 // &&&&&&&&&&&&&&&&&&&&&&& PROGRAM CONSTANTS &&&&&&&&&&&&&&&&&&&&&&&
 // &&&&&&&&&&&&&&&&&&&&&&& &&&&&&&&&&&&&&&&&&&&&&& &&&&&&&&&&&&&&&&&&&&&&&
 
-const float sampleR = 0.4; // 400ms sample rate
+const float sampleR = 0.5; // 500ms sample rate
 
 int eeAddress = 0;
 int eeAddressForInitialization = 100;
@@ -70,7 +70,7 @@ bool setFlag = false;
 
 int fanSpeed = 0;                   //speed of the turbofan in RPM
 int mtrSpeed = 0;                   //speed of the motor in RPM
-int deadBand = 20;                  //minimum PWM signal for the motor to move
+int deadBand = 25;                  //minimum PWM signal for the motor to move
 float vout = 0.0;                   //Voltage out of the motor
 float roughMotorVoltage = 0.0;
 float oldVolt = 0.0;                //check to see if voltage changes after each loop

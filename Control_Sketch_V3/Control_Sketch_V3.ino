@@ -354,6 +354,7 @@ void zeroNums() {
   oldPos = 0;
   mtrSpeed = 0;
   fanSpeed = 0;
+  roughMotorVoltage = 0.0;
   delay(100);
   printSpeeds();
   printVoltage();

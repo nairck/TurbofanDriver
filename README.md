@@ -1,5 +1,5 @@
 # TurbofanDriver
-Here resides the Arduino Control Sketch for the turbofan driver on Thingiverse, along with other related items.
+Here resides the Arduino Control Sketch along with other related items for the 3D Printable Jet Engine - V3 Turbofan Driver.
 
 
 See Thingiverse post for main project repository

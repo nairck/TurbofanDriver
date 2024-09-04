@@ -50,7 +50,7 @@
 //#define  motorVoltagePin A0            //***Analog pin for motor voltage measurement
 
 float motorRPMperVolt = (4825.0 / 12.0);         //***DC motor max RPM (4825) divided by max voltage (12VDC. Measure both paraments and adjust
-LiquidCrystal_I2C lcd(0x3F, 20, 4);     //***Adjust screen address if needed. Use File > Examples > Wire > i2c_scanner to acquire address and change 0x3F as needed.
+LiquidCrystal_I2C lcd(0x27, 20, 4);     //***Adjust as needed. Use File > Examples > Wire > i2c_scanner to acquire address. 0x27 for replacement screen, 0x3F for original 
 Encoder myEncoder(chA, chB);
 
 //##################  End of adjustable parameters #######################################
@@ -97,6 +97,7 @@ void setup() {
   analogWrite(motorPWM, 0);
 
   lcd.init();
+  lcd.backlight();
   lcd.setCursor ( 1, 0 );
   lcd.print("V3 Turbofan Driver");
   lcd.setCursor ( 0, 2 );

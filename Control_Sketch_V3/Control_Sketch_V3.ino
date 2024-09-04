@@ -21,6 +21,8 @@
        - bug fix where maximum pwm input was equal to maximum allowed minus the deadband
        - bug fixs for EEPROM code, setting new value would reset initialization sometimes or not work at all.
        - Serial monitor will now show encoder position and measured voltage at the sample rate for debugging purposes. Does not affect program when not in use.
+       - Changed LCD addressto 0x27 for new screen, put lcd.backlight() in to turn lcd backlight on
+       - Adjusted motor speed equation to correctly estimate speed given drive voltage, measured voltage, and back emf constant
 
     KNOWN ISSUES - THE ENCODER CAN BOUNCE AROUND WHEN TURNING THE SPEED TO ZERO
                    FROM SOME HIGHER SPEED OR WHEN TURNING THE ENCODER IN THE NEGATIVE

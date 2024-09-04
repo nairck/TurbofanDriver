@@ -186,7 +186,7 @@ void loop() {
         }
         lcd.setCursor(1, 0);
         lcd.print("Max Speed Reached!");
-        delay(1000);
+        delay(750);
         for (int i = 0; i < 20; i++) {
           lcd.setCursor(i, 0);
           lcd.print(" ");

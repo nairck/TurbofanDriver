@@ -22,7 +22,7 @@
        - bug fixs for EEPROM code, setting new value would reset initialization sometimes or not work at all.
        - Serial monitor will now show encoder position and measured voltage at the sample rate for debugging purposes. Does not affect program when not in use.
        - Changed LCD addressto 0x27 for new screen, put lcd.backlight() in to turn lcd backlight on
-       - Adjusted motor speed equation to correctly estimate speed given drive voltage, measured voltage, and back emf constant
+       - Added motor speed equation to correctly estimate speed given drive voltage, measured voltage, and back emf constant, but old equation more stable, oh well. maybe current meaurement in later revision?
 
     KNOWN ISSUES - THE ENCODER CAN BOUNCE AROUND WHEN TURNING THE SPEED TO ZERO
                    FROM SOME HIGHER SPEED OR WHEN TURNING THE ENCODER IN THE NEGATIVE
@@ -208,6 +208,7 @@ void loop() {
     Serial.println(roughMotorVoltage);
 
     if (abs(roughMotorVoltage - oldVolt) >= 0.005) {
+      // mtrSpeed = motorRPMperVolt * ((2.0 * roughMotorVoltage) - ((float)newPos * 12.0 / 255.0));     // this should be a good enough estimate for armature current, but doesn't work well
       mtrSpeed = motorRPMperVolt * roughMotorVoltage;
       fanSpeed = mtrSpeed / gearRatio;
       oldVolt = roughMotorVoltage;

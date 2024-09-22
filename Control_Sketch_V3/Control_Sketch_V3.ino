@@ -10,6 +10,7 @@
     Maximum speed set is remembered inside the program even after power down.
 
     Visit https://www.thingiverse.com/thing:4743929 for the project directory
+    Visit https://github.com/nairck/TurbofanDriver for the Github directory
 
     Written and designed by Adam B Johnson
     in British Columbia, Canada
@@ -21,45 +22,38 @@
        - bug fix where maximum pwm input was equal to maximum allowed minus the deadband
        - bug fixs for EEPROM code, setting new value would reset initialization sometimes or not work at all.
        - Serial monitor will now show encoder position and measured voltage at the sample rate for debugging purposes. Does not affect program when not in use.
-       - Changed LCD addressto 0x27 for new screen, put lcd.backlight() in to turn lcd backlight on
-       - Added motor speed equation to correctly estimate speed given drive voltage, measured voltage, and back emf constant, but old equation more stable, oh well. maybe current meaurement in later revision?
-
-    KNOWN ISSUES - THE ENCODER CAN BOUNCE AROUND WHEN TURNING THE SPEED TO ZERO
-                   FROM SOME HIGHER SPEED OR WHEN TURNING THE ENCODER IN THE NEGATIVE
-                   DIRECTION WHEN AT ZERO. V3 UPDATES SHOULD IMPROVE THIS, BUT MECHANICALLY, THE 
-                   DETENTING CAN CAUSE BOUNCING. THE PUSHBUTTON TO RESET THE SPEED SHOULD ALWAYS
-                   WORK, OR THE POWER BUTTON.
-
-                 - THE SCREEN FLICKERS. I HAVE TRIED A CAPACITOR AND IT DOESN'T HELP MUCH.
-                   I HAVE READ ITS FAIRLY COMMON FOR 'CHEAPER' LCDs.
+       - i2c scanner built into program now, screen address not needed - it will be automatically scanned and used every power up. Included Wire library
 
 */
 
-#define gearRatio 2.27              //fixed gear ratio
-
-#include <Encoder.h>                //Might need to download this library. Tools > Manage Libraries > Search for 'Encoder'
-#include <LiquidCrystal_I2C.h>      //Might also need to download this one in the same way.
-#include <EEPROM.h>                 //This should have been included when you installed Arduino IDE. No download needed
-
-//##################  Adjust these values if needed #######################################
-
+//#######################################  Adjust these values if needed #######################################
+//#######################################  Adjust these values if needed #######################################
+//#######################################  Adjust these values if needed #######################################
 #define chB 2                           //***pin B of the rotary encoder (channel B should be pin 2). Can be non-interrupt capable pin, but will have lower performance
 #define chA 3                           //***pin A of the rotary encoder (channel A should be pin 3). Can be non-interrupt capable pin, but will have lower performance
 #define pushButton 4                    //***Button pin           
 #define motorPWM 6                      //***PWM pin to motor controller 
 #define motorDir1 9                     //***motor direction forward pin to driver
 #define motorDir2 10                    //***motor direction reverse pin to driver 
-//#define  motorVoltagePin A0            //***Analog pin for motor voltage measurement
+#define motorRPMperVolt (5000.0 / 12.0)         //***DC motor max RPM (4825) divided by max voltage (12VDC. Measure both paraments and adjust
+//#######################################  End of adjustable parameters #######################################
+//#######################################  End of adjustable parameters #######################################
+//#######################################  End of adjustable parameters #######################################
 
-float motorRPMperVolt = (4825.0 / 12.0);         //***DC motor max RPM (4825) divided by max voltage (12VDC. Measure both paraments and adjust
-LiquidCrystal_I2C lcd(0x27, 20, 4);     //***Adjust as needed. Use File > Examples > Wire > i2c_scanner to acquire address. 0x27 for replacement screen, 0x3F for original 
-Encoder myEncoder(chA, chB);
 
-//##################  End of adjustable parameters #######################################
+// Libraries to include 
+#include <Encoder.h>                //Might need to download this library. Tools > Manage Libraries > Search for 'Encoder'
+#include <LiquidCrystal_I2C.h>      //Might also need to download this one in the same way.
+#include <EEPROM.h>                 //This should have been included when you installed Arduino IDE. No download needed
+#include <Wire.h>
+
 
 // &&&&&&&&&&&&&&&&&&&&&&& &&&&&&&&&&&&&&&&&&&&&&& &&&&&&&&&&&&&&&&&&&&&&&
 // &&&&&&&&&&&&&&&&&&&&&&& PROGRAM CONSTANTS &&&&&&&&&&&&&&&&&&&&&&&
 // &&&&&&&&&&&&&&&&&&&&&&& &&&&&&&&&&&&&&&&&&&&&&& &&&&&&&&&&&&&&&&&&&&&&&
+
+LiquidCrystal_I2C lcd(0x00, 20, 4);     // Place holder LCD screen object
+Encoder myEncoder(chA, chB);            // Encoder object
 
 const float sampleR = 0.5; // 500ms sample rate
 
@@ -70,9 +64,10 @@ byte pwmMax = 255;
 int pwmVal = 0;
 bool setFlag = false;
 
+const float gearRatio = 2.27;       //fixed gear ratio
 int fanSpeed = 0;                   //speed of the turbofan in RPM
 int mtrSpeed = 0;                   //speed of the motor in RPM
-int deadBand = 25;                  //minimum PWM signal for the motor to move
+int deadBand = 30;                  //minimum PWM signal for the motor to move
 float vout = 0.0;                   //Voltage out of the motor
 float roughMotorVoltage = 0.0;
 float oldVolt = 0.0;                //check to see if voltage changes after each loop
@@ -84,6 +79,7 @@ long oldPos = 0;                    //old position of the encoder
 long newPos = 0;                    //new position of the encoder
 
 void setup() {
+
   Serial.begin(9600);
   pinMode(A0, INPUT);
   pinMode(motorDir1, OUTPUT);
@@ -98,8 +94,25 @@ void setup() {
   digitalWrite(motorDir2, LOW);   //motor direction (REV = LOW). DON'T CHANGE. SWITCH THE WIRES IF DIRECTION IS WRONG
   analogWrite(motorPWM, 0);
 
-  lcd.init();
-  lcd.backlight();
+  Serial.println("Scanning for I2C devices...");
+  
+  Wire.begin();
+  byte lcdAddress = scanI2CAddress();
+
+  // If an address is found, initialize the LCD
+  if (lcdAddress > 0) {
+    Serial.print("LCD found at address 0x");
+    if (lcdAddress < 16) Serial.print("0");
+    Serial.println(lcdAddress, HEX);
+
+    // Initialize the LCD with the found address
+    lcd = LiquidCrystal_I2C(lcdAddress, 20, 4);
+    lcd.init();  // Use `init()` instead of `begin()` depending on the library
+    lcd.backlight();  // Turn on the backlight
+  } else {
+    Serial.println("No I2C LCD found.");
+  }
+
   lcd.setCursor ( 1, 0 );
   lcd.print("V3 Turbofan Driver");
   lcd.setCursor ( 0, 2 );
@@ -158,7 +171,7 @@ void loop() {
     timeOld = timeNew;
 
     // read and filter voltage
-    float f_cutoff = 0.25;
+    float f_cutoff = 0.4;
     float alpha = (2.0 * 3.14 * f_cutoff * sampleR) / ((2.0 * 3.14 * f_cutoff * sampleR) + 1.0);
     roughMotorVoltage = (((1.0 - alpha) * roughMotorVoltage) + (alpha * (analogRead(A0) * 12.0 / 1024.0)));
     roughMotorVoltage = ((int)(roughMotorVoltage * 100.0)) / 100.0;
@@ -380,4 +393,29 @@ void screenSetup() {
   lcd.print("Voltage:");
   lcd.setCursor (17, 3 );
   lcd.print("VDC");
+}
+
+
+
+
+byte scanI2CAddress() {
+  Serial.println("Scanning...");
+
+  for (byte address = 1; address < 127; address++) {
+    Wire.beginTransmission(address);
+    byte error = Wire.endTransmission();
+
+    if (error == 0) {
+      Serial.print("I2C device found at address 0x");
+      if (address < 16) Serial.print("0");
+      Serial.println(address, HEX);
+      return address;  // Return the found address
+    } else if (error == 4) {
+      Serial.print("Unknown error at address 0x");
+      if (address < 16) Serial.print("0");
+      Serial.println(address, HEX);
+    }
+  }
+
+  return 0;  // Return 0 if no I2C device found
 }

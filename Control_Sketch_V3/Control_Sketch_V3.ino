@@ -23,6 +23,7 @@
        - bug fixs for EEPROM code, setting new value would reset initialization sometimes or not work at all.
        - Serial monitor will now show encoder position and measured voltage at the sample rate for debugging purposes. Does not affect program when not in use.
        - i2c scanner built into program now, screen address not needed - it will be automatically scanned and used every power up. Included Wire library
+       - Updated motor voltage equation to match better
 
 */
 
@@ -173,7 +174,7 @@ void loop() {
     // read and filter voltage
     float f_cutoff = 0.4;
     float alpha = (2.0 * 3.14 * f_cutoff * sampleR) / ((2.0 * 3.14 * f_cutoff * sampleR) + 1.0);
-    roughMotorVoltage = (((1.0 - alpha) * roughMotorVoltage) + (alpha * (analogRead(A0) * 12.0 / 1024.0)));
+    roughMotorVoltage = (((1.0 - alpha) * roughMotorVoltage) + (alpha * (analogRead(A0) * 12.15 / 1024.0)));
     roughMotorVoltage = ((int)(roughMotorVoltage * 100.0)) / 100.0;
 
 

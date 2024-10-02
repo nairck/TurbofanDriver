@@ -217,9 +217,12 @@ void loop() {
         delay(1000);
       }
     }
+    Serial.print("Current encoder position: ");
     Serial.print(newPos);
-    Serial.print("    ");
-    Serial.println(roughMotorVoltage);
+    Serial.print("      ");
+    Serial.print("Measured/filtered motor voltage: ");
+    Serial.print(roughMotorVoltage);
+    Serial.println(" VDC");
 
     if (abs(roughMotorVoltage - oldVolt) >= 0.005) {
       // mtrSpeed = motorRPMperVolt * ((2.0 * roughMotorVoltage) - ((float)newPos * 12.0 / 255.0));     // this should be a good enough estimate for armature current, but doesn't work well

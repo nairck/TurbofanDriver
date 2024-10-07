@@ -1,0 +1,90 @@
+*** Change Log ***
+****************************************************************************************************************
+
+*** Made motor clamp a little wider for less pressure on set. - 23 Sep 2024 ***
+ - Motor Clamp - V3.STEP updated
+ - Engine Assembly - V3.STEP updated
+
+***Widened Low Pressure Spool (Aft) head size diameter to 11mm for wider bolt heads. Reduced wall thickness on Base face for shorter encoder shafts. - 22 Sep 2024 ***
+ - Stand and Electronics Bay - V3.1.STL updated
+ - Low Pressure Spool (Aft) - V3.STL updated
+ - Engine Assembly - V3.STEP updated
+
+***Updated Arduino control sketch to automatically scan and use the LCD i2c address. No more figuring it out, it's automatic :) - 21 September 2024***
+
+*** Update to control schematic to include 5V regulator and soldering information - 18 Sep 2024 ***
+
+*** Final update to Electronics Bay and Cover to house new PCB and line up with its connector. Update to Motor Clamp to include alignment ridge and make connection better. Improved fitting of various power supplies (within size limits) with addition of spacers. Added small removable spacer for L298N driver during soldering (video to come) - 15 Sep 2024***
+ - Electronics Bay Cover - V3.1.STL Added
+ - Stand and Electronics Bay - V3.1.STL Added
+ - Motor Driver Spacer - V3.STL Added
+ - Motor Clamp - V3.STEP updated
+ - Engine Assembly - V3.STEP updated
+
+*** Added spacer for side-to-side gap filling of power supplies that are less than 55mm wide. Scale height of spacer as needed to get 55mm 14 Sep 2024***
+ - Power Supply Spacer, Lateral - V3.STL updated
+
+*** Added V3 schematic images to this post and uploaded final version to Github. PCB to come soon! - 13 Sep 2024***
+
+*** Added spacer for power supplies that are between 112mm and 125mm. Scale height as needed to get 125mm. 12 Sep 2024***
+ - Power Supply Spacer - V3.STL updated
+
+*** Added Complete, Electronics, and Mechanical Kit lists - let me know if there are any issues! - 9 Sep 2024 ***
+
+*** Increased hole size in cowling so key fits more easily. Removed extra holes. 8 Sep 2024***
+ - TN1-119A_TFD-V3.STL updated
+ - TN1-119B_TFD-V3.STL updated
+ - TN1-119C_TFD-V3.STL updated
+ - TN1-119D_TFD-V3.STL updated
+ - Engine Assembly - V3.STEP updated
+
+*** Included extended tabs in new cowling sections so no M3 nuts needed, only M3 tap, or simply fastener with enough pressure. Adjusted mechanical and combined kit prices - 7 Sep 2024 ***
+ - TN1-119B_TFD-V3.STL updated
+ - TN1-119C_TFD-V3.STL updated
+ - Engine Assembly - V3.STEP updated
+
+*** Increased length of power supply bay in stand and cover to fit anything under 125mm long, 55mm wide, and 35mm tall. - 7 Sep 2024***
+ - Electronics Bay Cover - V3.STL added
+ - Stand and Electronics Bay - V3.STL updated
+ - Engine Assembly - V3.STEP updated
+
+***Uploaded V3 STEP file. No course resolution STL will be uploaded unless requested - 6 Aug 2024***
+
+*** Update to Gear Clamp and Gear - changed M3 with nut to CA glue as shaft key. Improved flexural coupling for installation and push tab for easy removable. - 5 Sep 2024***
+ - 30 Tooth Herringbone Gear - V3.STL added
+ - Gear Clamp - V3.STL added
+
+*** Updated control sketch to include screen address and turn on backlight by default - 4 Sep 2024 ***
+
+*** Stand and Electronics Bay - V3.STL updated to better fit the LCD screen - 4 Sep 2024 ***
+ 
+*** 3D-printed M6 or 1/4-20 threads made so no larger tap needed. - 28 Aug 2024***
+ - Low Pressure Shaft (Front) - V3.1 (M6x1).STL added
+ - Low Pressure Shaft (Front) - V3.1 (1/4-20).STL added
+ 
+***Additional pieces to the front added for improved air flow. Adjustment to the base to increase clearance. - more to come - 19 august 2024***
+
+***PCB design in the works! More to come!!! - 19 AUGUST 2024***
+
+***V3 SOFTWARE UPGRADE RELEASED ON GITHUB!  - 11 August 2024***
+Updates to voltage measurement filtering, screen updating, and bug fixes for encoder bounce issues and EEPROM speed setpoints.
+
+***V3 SHAFT LINE UPGRADES - 11 August 2024***
+ Upgrade requires 40mm M6 or 1/4-20 socket head cap screw and accompanying tap.
+ - Low Pressure Shaft (Front) - V3.STL added
+ - Low Pressure Spool (Aft) - V3.STL added
+
+
+****************************************************************************************************************
+****************************************************************************************************************
+****************************************************************************************************************
+****************************************************************************************************************
+
+
+***V2 MAJOR UPDATE: 23 NOV - 26 DEC 2022 (COMPLETE): ***
+***Electrical updates:*** Detailed electronics assembly instructions created; Schematic updated; Code updated; Electronics Bay Assembly video created on YouTube; New files located and kept up to date in GitHub repository; Main Fan Assembly video created on YouTube (link below)
+
+***Mechanical updates:***
+Electronics bay and cover to hold regular power supply and fit comfortably the replacement LCD; Entire drive line redesigned with flexural clamping on all rotating blades (except main fan), bores for each connecting shaft to seat concentrically, and added clearance around moving parts; Motor gear and clamp redesigned to be a flexural clamp with snap-in place feature for the gear. Added M3 nut to provide much greater clamping force with the new clamp; Coarse (STL) resolution assembly STL files added to check assembly orientation and configuration - use individual part STL files for higher resolutions print; Master Assembly - V2. STEP file added for further remixing and modifications; Assembly video created on YouTube
+
+ *** ALL UPDATED COMPONENTS ARE MARKED WITH " - V2" ***  

@@ -1,6 +1,8 @@
 *** Change Log ***
 ****************************************************************************************************************
 
+*** updated main Thingiverse (and other sites) post to 'upgrade complete'. Let me know if there any issues, concerns, or suggestions for revisions moving forward! - 13 October 2024 ***
+
 *** Made motor clamp a little wider for less pressure on set. - 23 Sep 2024 ***
  - Motor Clamp - V3.STEP updated
  - Engine Assembly - V3.STEP updated

@@ -1,6 +1,4 @@
 # TurbofanDriver
-*** UPDATE IN PROGRESS AUGUST-SEPTEMBER 2024 - HANG TIGHT WHILE THINGS CHANGE, GET ADDED, AND FINALIZE OVER THE NEXT FEW WEEKS***
-
 
 Here resides various important files for the 3D Printable Jet Engine - V3 Turbofan Driver:
 
@@ -11,7 +9,7 @@ Here resides various important files for the 3D Printable Jet Engine - V3 Turbof
   
 
 Use all V3 files if you are starting this project for the first time.
-Use "V2 to V3 Upgrade (no PCB)" files if upgrading from V2 to V3 without going to the new PCB. This folder will stay here as a V2 archive.
+Use "V2 Archive" as reference only to look back at obsolete schematic and instructions.
 
 
 See Thingiverse post for main project repository:
